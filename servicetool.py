@@ -11,7 +11,7 @@ def main():
 
 
     if options.status:
-        os.system(f'systemctl is-active {arguments}')
+        print(os.system(f'systemctl is-active {arguments}'))
     elif options.start:
         print('start')
     elif options.stop:
