@@ -16,7 +16,10 @@ def main():
         print(options.status)
         print(options)
         """
-        s = subprocess.Popen(['systemctl', 'is-active', f'{options.status}'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        command = ['systemctl', 'is-active']
+        for i in options.status:
+            command.append(i)
+        s = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         out, err = s.communicate()
         print(out)
         
