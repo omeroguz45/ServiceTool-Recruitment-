@@ -1,6 +1,6 @@
 #!/bin/bash/env python
 import optparse
-import os
+import subprocess
 
 def main():
     p = optparse.OptionParser()
@@ -11,7 +11,7 @@ def main():
 
 
     if options.status:
-        print(os.system(f'systemctl is-active {arguments}'))
+        s = subprocess.Popen(f'systemctl is-active {arguments}')
     elif options.start:
         print('start')
     elif options.stop:
