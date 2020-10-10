@@ -7,9 +7,10 @@ def main():
     p.add_option('-s','--status')
     p.add_option('-r','--start')
     p.add_option('-k','--stop')
+    out = p.parse_args()
     options, arguments = p.parse_args()
 
-
+"""
     if options.status:
         print(options.status)
         print(arguments)
@@ -27,7 +28,7 @@ def main():
         print('stop')
     else:
         p.print_help()
-
+"""
 
 if __name__ == '__main__':
     main()
