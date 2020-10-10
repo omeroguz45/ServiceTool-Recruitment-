@@ -12,12 +12,13 @@ def main():
 
     if options.status:
         print(options.status)
+        print(arguments)
         command = ['systemctl', 'is-active']
         for i in options.status:
             command.append(i)
         s = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         out, err = s.communicate()
-        print(out)
+        print(str(out))
         print(type(out))
         
     elif options.start:
