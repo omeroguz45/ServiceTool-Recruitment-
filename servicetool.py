@@ -12,6 +12,8 @@ def main():
 
     if options.status:
         s = subprocess.Popen(f'systemctl is-active {arguments}', stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        out = s.stdout.read()
+        print(f'{arguments} is {out}')
     elif options.start:
         print('start')
     elif options.stop:
