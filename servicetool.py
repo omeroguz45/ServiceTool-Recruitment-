@@ -9,6 +9,8 @@ def main():
     p.add_option('-k','--stop')
     out = p.parse_args()
     options, arguments = p.parse_args()
+    print(out)
+    print(type(out))
 
 """
     if options.status:
