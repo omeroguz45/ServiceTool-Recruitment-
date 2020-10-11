@@ -14,7 +14,7 @@ def main():
     while True:
         service = 'ssh'
         stat = servicestat(service)
-        print('{service} - {stat}', end='\r')
+        print(f'{service} - {stat}', end='\r')
 
 if __name__ == '__main__':
     main()
