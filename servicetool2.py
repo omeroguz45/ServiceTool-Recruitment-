@@ -13,7 +13,7 @@ def servicestat(service):
 def main():
     print(f'ServiceTool, Version{version} by omeroguz45')
     while True:
-        service = 'ssh'
+        service = 'firewall'
         stat = servicestat(service)
         print(f'{service} - {stat}', end='\r')
 
