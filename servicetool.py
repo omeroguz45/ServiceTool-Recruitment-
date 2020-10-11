@@ -3,6 +3,7 @@ import curses
 
 version = 1.0
 
+#The function for receiving the input from the user.
 def get_input(window, row, col):
     curses.echo() 
     window.addstr(row, col, '>')
@@ -10,44 +11,48 @@ def get_input(window, row, col):
     window.refresh()
     return inp
 
+#The function to check service status.
 def servicestat(service):
     p = subprocess.Popen(['systemctl', 'is-active', str(service)], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     out = p.stdout.read()
     out = out.decode('utf-8').replace('\n', '')
     return out
 
+#The function to run Unix commands inside Python.
 def servicecommand(command):
     p = subprocess.Popen(['systemctl', str(command)], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     out = p.stdout.read()
     out = out.decode('utf-8').replace('\n', '')
     return out
 
+#The main function.
 def main():
     while True:
-        #creating the main command line interface
-        screen = curses.initscr() #initialize screen
-        num_rows, num_cols = screen.getmaxyx() #get the size of the terminal that the program runs on
+        #Creating the command line interface
+        screen = curses.initscr()
+        num_rows, num_cols = screen.getmaxyx()
         half_col = int(round(num_cols/2))
 
-        #creating an output window where services and their statuses are shown
+        #Creating a window where the status of the services will be shown.
         output_win = curses.newwin(num_rows-1, half_col+5, 0, 0)
         output_win.addstr(0,0, f'ServiceTool Version {version}, made by omeroguz45.')
         info_win = curses.newwin(num_rows-1, half_col-5, 0, half_col+6)
         info_win.addstr(0,0, "Hi!\nThis is ServiceTool, a tool where you can start, stop, restart and monitor the status of the linux services.\nThis is the info window.\nOn the left is the window where the system services and their status are shown.\nOn the bottom is the input window, type 'help' then press enter to start!")
         info_win.refresh()
 
-        #opening and reading the services from services.txt
+        #Opening and reading the services from services.txt.
         servicesfile = open('./services.txt', 'r')
         services = [i.replace('\n', '') for i in servicesfile.readlines()]
-        r = 2 #row number for where to print the service name and status
-        #printing every service and their status on the output window
+        r = 2
+        #Printing every service and their status on the output window.
         for service in services:
             output_win.addstr(r,0, f'{service} - {servicestat(service)}')
             r += 1
         for line in range(0, num_rows-2):
             output_win.addstr(line, half_col+4, '|')
-        #showing the output window
+        #Showing the status window.
         output_win.refresh()
+        #The main input analysis and operation loop.
         while True:
             input_win = curses.newwin(2,num_cols,num_rows-2,0)
             for column in range(0, num_cols):
@@ -66,7 +71,6 @@ def main():
                             if servicestat(command_split[1]) == 'active':
                                 info_win.addstr(0,0, f'{command_split[1]} is already active!')
                                 info_win.refresh()
-                            
                             else:
                                 servicecommand(command_split)
                                 info_win.addstr(0,0, f'Starting {command_split[1]}')
@@ -113,6 +117,6 @@ def main():
             info_win.refresh()
             input_win.refresh()
 
-
+#Running the code.
 if __name__ == '__main__':
     main()
