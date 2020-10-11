@@ -17,8 +17,8 @@ def main():
     output_win = curses.newwin(num_rows-1,num_cols,0,0)
     output_win.addstr(0,0, f'ServiceTool Version {version}, made by omeroguz45.')
     services = ['ssh', 'firewall']
+    r = 2
     for service in services:
-        r = 2
         output_win.addstr(r,0, f'{service} - {servicestat(service)}')
         r += 1
     output_win.refresh()
