@@ -59,16 +59,45 @@ def main():
             input_win.clrtoeol()
             command_split = command.split(' ')
             commands = ['start', 'stop', 'restart']
-
-            if command_split[0] in commands:
-                out = servicecommand(command_split)
-                info_win.addstr(0,0, out)
-                info_win.refresh()
-
+            if len(command_split) == 2:
+                if command_split[0] in commands:
+                    if command_split[0] in ['start', 'restart']:
+                        if servicestat(command_split[1]) == 'active':
+                            info_win.addstr(0,0, f'{command_split[1]} is already active!')
+                            info_win.refresh()
+                        
+                        else:
+                            servicecommand(command_split)
+                            info_win.addstr(0,0, f'Starting {command_split[1]}')
+                            info_win.refresh()
+                            if servicestat(command_split[1]) == 'active':
+                                info_win.addstr(0,0, f'Successfully started {command_split[1]}!')
+                                info_win.refresh()
+                            else:
+                                info_win.addstr(0,0, f'Failed to start {command_split[1]}!')
+                                info_win.refresh()
+                    else:
+                        if servicestat(command_split[1]) == 'inactive':
+                            info_win.addstr(0,0, f'{command_split[1]} is already inactive!')
+                            info_win.refresh()
+                        else:
+                            servicecommand(command_split)
+                            info_win.addstr(0,0, f'Stopping {command_split[1]}')
+                            info_win.refresh()
+                            if servicestat(command_split[1]) == 'active':
+                                info_win.addstr(0,0, f'Successfully stopped {command_split[1]}!')
+                                info_win.refresh()
+                            else:
+                                info_win.addstr(0,0, f'Failed to stop {command_split[1]}!')
+                                info_win.refresh()
+                else:
+                    #help info
+                    info_win.addstr(0,0, f"Did someone call for help?\nIf you've come to here, you probably typed something wrong or just searched help.\nYou typed:{command}\nTo start, stop or restart a service, just type the action (f.e. 'start') then the service you wanna start with a blank in between.\nIt's just that simple!")
+                    info_win.refresh()
             else:
-                #help info
                 info_win.addstr(0,0, f"Did someone call for help?\nIf you've come to here, you probably typed something wrong or just searched help.\nYou typed:{command}\nTo start, stop or restart a service, just type the action (f.e. 'start') then the service you wanna start with a blank in between.\nIt's just that simple!")
                 info_win.refresh()
+
                 
             info_win.refresh()
             input_win.refresh()
