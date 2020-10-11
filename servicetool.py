@@ -59,7 +59,6 @@ def main():
             input_win.clrtoeol()
             command_split = command.split(' ')
             commands = ['start', 'stop', 'restart']
-            info_win.clrtobot()
             if len(command_split) == 2:
                 if command_split[0] in commands:
                     if command_split[0] in ['start', 'restart']:
@@ -99,7 +98,7 @@ def main():
                 info_win.addstr(0,0, f"Did someone call for help?\nIf you've come to here, you probably typed something wrong or just searched help.\nYou typed:{command}\nTo start, stop or restart a service, just type the action (f.e. 'start') then the service you wanna start with a blank in between.\nIt's just that simple!")
                 info_win.refresh()
 
-                
+            info_win.clrtobot()
             info_win.refresh()
             input_win.refresh()
 
