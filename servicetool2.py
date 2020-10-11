@@ -14,7 +14,8 @@ def servicestat(service):
 def main():
     print(f'ServiceTool, Version{version} by omeroguz45')
     while True:
-        print(servicestat('ssh'), end='\r')
+        service, stat = servicestat('ssh')
+        print(f'{service} - {stat}', end='\r')
 
 if __name__ == '__main__':
     main()
