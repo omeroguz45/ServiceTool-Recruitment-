@@ -7,6 +7,7 @@ def servicestat(service):
     out, err = p.communicate()
     out = out.decode('utf-8')
     return out
+    break
 
 
 
