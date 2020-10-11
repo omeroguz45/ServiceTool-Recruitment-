@@ -7,7 +7,7 @@ def servicestat(service):
     p = subprocess.Popen(['systemctl', 'is-active', str(service)], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     out = p.stdout.read()
     out = out.decode('utf-8').replace('\n', '')
-    print(f'{service} - {out}', end='\r', flush=True)
+    print(f'{service} - {out}', end='\n', flush=True)
 
 
 
