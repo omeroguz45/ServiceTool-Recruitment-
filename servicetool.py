@@ -62,19 +62,30 @@ def main():
             if len(command_split) == 2:
                 if command_split[0] in commands:
                     if command_split[0] in ['start', 'restart']:
-                        if servicestat(command_split[1]) == 'active':
-                            info_win.addstr(0,0, f'{command_split[1]} is already active!')
-                            info_win.refresh()
-                        
+                        if command_split[0] == 'start':
+                            if servicestat(command_split[1]) == 'active':
+                                info_win.addstr(0,0, f'{command_split[1]} is already active!')
+                                info_win.refresh()
+                            
+                            else:
+                                servicecommand(command_split)
+                                info_win.addstr(0,0, f'Starting {command_split[1]}')
+                                info_win.refresh()
+                                if servicestat(command_split[1]) == 'active':
+                                    info_win.addstr(0,0, f'Successfully started {command_split[1]}!')
+                                    info_win.refresh()
+                                else:
+                                    info_win.addstr(0,0, f'Failed to start {command_split[1]}!')
+                                    info_win.refresh()
                         else:
                             servicecommand(command_split)
-                            info_win.addstr(0,0, f'Starting {command_split[1]}')
+                            info_win.addstr(0,0, f'Restarting {command_split[1]}!')
                             info_win.refresh()
                             if servicestat(command_split[1]) == 'active':
-                                info_win.addstr(0,0, f'Successfully started {command_split[1]}!')
+                                info_win.addstr(0,0, f'Successfully restarted {command_split[1]}!')
                                 info_win.refresh()
                             else:
-                                info_win.addstr(0,0, f'Failed to start {command_split[1]}!')
+                                info_win.addstr(0,0, f'Failed to restart {command_split[1]}!')
                                 info_win.refresh()
                     else:
                         if servicestat(command_split[1]) == 'inactive':
