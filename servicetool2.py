@@ -25,7 +25,7 @@ def main():
     half_col = int(round(num_cols/2))
     
     #creating an output window where services and their statuses are shown
-    output_win = curses.newwin(num_rows-1, half_col, 0, 0)
+    output_win = curses.newwin(num_rows-1, half_col+5, 0, 0)
     output_win.addstr(0,0, f'ServiceTool Version {version}, made by omeroguz45.')
     
     #opening and reading the services from services.txt
@@ -36,6 +36,8 @@ def main():
     for service in services:
         output_win.addstr(r,0, f'{service} - {servicestat(service)}')
         r += 1
+    for line in range(0, num_rows-2):
+        output_win.addstr(line, half_col+5, '|')
     #showing the output window
     output_win.refresh()
 
@@ -46,7 +48,7 @@ def main():
     curses.setsyx(0,1)
     input_win.clrtobot()
 
-    info_win = curses.newwin(num_rows-1, half_col, 0, half_col+1)
+    info_win = curses.newwin(num_rows-1, half_col-5, 0, half_col+6)
     info_win.addstr(0, 0, command)
     info_win.refresh()
     input_win.refresh()
