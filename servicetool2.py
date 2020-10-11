@@ -37,7 +37,7 @@ def main():
         output_win.addstr(r,0, f'{service} - {servicestat(service)}')
         r += 1
     for line in range(0, num_rows-2):
-        output_win.addstr(line, half_col+5, '|')
+        output_win.addstr(line, half_col+4, '|')
     #showing the output window
     output_win.refresh()
 
