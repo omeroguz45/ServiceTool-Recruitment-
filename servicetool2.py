@@ -16,8 +16,11 @@ def main():
     num_rows, num_cols = screen.getmaxyx()
     output_win = curses.newwin(num_rows-1,num_cols,0,0)
     output_win.addstr(0,0, f'ServiceTool Version {version}, made by omeroguz45.')
-    services = ['ssh', 'firewall']
-    r = 2
+    
+    #open and read the services from services.txt
+    servicesfile = open('./services.txt', 'r')
+    services = [i.replace('\n', '') for i in servicesfile.readlines()]
+    r = 2 #row number for where to print the service name and status
     for service in services:
         output_win.addstr(r,0, f'{service} - {servicestat(service)}')
         r += 1
