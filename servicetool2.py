@@ -1,5 +1,5 @@
 import subprocess
-import sys
+import curses
 
 version = 1.0
 
@@ -7,15 +7,20 @@ def servicestat(service):
     p = subprocess.Popen(['systemctl', 'is-active', str(service)], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     out = p.stdout.read()
     out = out.decode('utf-8').replace('\n', '')
-    print(f'{service} - {out}', end='\n', flush=True)
+    return out
 
 
 
 def main():
-    print(f'ServiceTool, Version{version} by omeroguz45')
-    while True:
-        servicestat('ssh')
-        servicestat('firewall')
+    screen = curses.initscr()
+    num_rows, num_cols = screen.getmaxyx()
+    output_win = curses.newwin(num_rows-1,num_cols,0,0)
+    output_win.addstr(0,0, f'ServiceTool Version {version}, made by omeroguz45.')
+    services = ['ssh', 'firewall']
+    for service in services:
+        r = 2
+        output_win.addstr(r,0, f'{service} - {servicestat(service)}')
+        r += 1
 
 if __name__ == '__main__':
     main()
