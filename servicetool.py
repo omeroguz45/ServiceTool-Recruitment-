@@ -16,7 +16,11 @@ def servicestat(service):
     out = out.decode('utf-8').replace('\n', '')
     return out
 
-
+def servicecommand(command):
+    p = subprocess.Popen(['systemctl', str(command)], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    out = p.stdout.read()
+    out = out.decode('utf-8').replace('\n', '')
+    return out
 
 def main():
     while True:
@@ -29,7 +33,7 @@ def main():
         output_win = curses.newwin(num_rows-1, half_col+5, 0, 0)
         output_win.addstr(0,0, f'ServiceTool Version {version}, made by omeroguz45.')
         info_win = curses.newwin(num_rows-1, half_col-5, 0, half_col+6)
-        info_win.addstr(0,0, 'Hi! This is ServiceTool, a tool where you can start, stop and monitor the status of the linux services.\nThis is the info window.\nOn the left is the winddow where the system services and their status are shown.\nOn the bottom is the input window, type "inputs" to start!')
+        info_win.addstr(0,0, "Hi!\nThis is ServiceTool, a tool where you can start, stop, restart and monitor the status of the linux services.\nThis is the info window.\nOn the left is the window where the system services and their status are shown.\nOn the bottom is the input window, type 'help' then press enter to start!")
         info_win.refresh()
 
         #opening and reading the services from services.txt
@@ -53,14 +57,20 @@ def main():
             curses.flushinp()
             curses.setsyx(1,1)
             input_win.clrtoeol()
+            command = command.split(' ')
+            commands = ['start', 'stop', 'restart']
 
-            info_win.clrtobot()
-            info_win.addstr(0, 0, command)
-            info_win.refresh()
+            if command[0] in commands:
+                out = servicecommand(command)
+                info_win.addstr(0,0, out)
+
+            else:
+                #help info
+                info_win.addstr(0,0, f"Did someone call for help?\nIf you've come to here, you probably typed something wrong or just searched help.\nYou typed:{command}\nTo start, stop or restart a service, just type the action (f.e. 'start') then the service you wanna start with a blank in between.\nIt's just that simple!")
+                
+
             input_win.refresh()
 
-        curses.napms(200000)
-        curses.endwin()
 
 if __name__ == '__main__':
     main()
