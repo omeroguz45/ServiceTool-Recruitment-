@@ -6,7 +6,7 @@ version = 1.0
 def servicestat(service):
     p = subprocess.Popen(['systemctl', 'is-active', str(service)], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     out = p.stdout.read()
-    out = out.decode('utf-8')
+    out = out.decode('utf-8').replace('\n', '')
     return (service, out)
 
 
