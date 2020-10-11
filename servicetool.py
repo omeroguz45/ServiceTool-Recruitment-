@@ -30,6 +30,7 @@ def main():
         output_win.addstr(0,0, f'ServiceTool Version {version}, made by omeroguz45.')
         info_win = curses.newwin(num_rows-1, half_col-5, 0, half_col+6)
         info_win.addstr(0,0, 'Hi! This is ServiceTool, a tool where you can start, stop and monitor the status of the linux services.\nThis is the info window.\nOn the left is the winddow where the system services and their status are shown.\nOn the bottom is the input window, type "inputs" to start!')
+        info_win.refresh()
 
         #opening and reading the services from services.txt
         servicesfile = open('./services.txt', 'r')
