@@ -59,6 +59,7 @@ def main():
             input_win.clrtoeol()
             command_split = command.split(' ')
             commands = ['start', 'stop', 'restart']
+            info_win.clrtobot()
             if len(command_split) == 2:
                 if command_split[0] in commands:
                     if command_split[0] in ['start', 'restart']:
