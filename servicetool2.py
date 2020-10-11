@@ -3,6 +3,13 @@ import curses
 
 version = 1.0
 
+def get_input(window, row, col):
+    curses.echo() 
+    window.addstr(row, col, '>')
+    inp = window.getstr(row, col+1)
+    window.refresh()
+    return inp
+
 def servicestat(service):
     p = subprocess.Popen(['systemctl', 'is-active', str(service)], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     out = p.stdout.read()
@@ -12,19 +19,38 @@ def servicestat(service):
 
 
 def main():
-    screen = curses.initscr()
-    num_rows, num_cols = screen.getmaxyx()
-    output_win = curses.newwin(num_rows-1,num_cols,0,0)
+    #creating the main command line interface
+    screen = curses.initscr() #initialize screen
+    num_rows, num_cols = screen.getmaxyx() #get the size of the terminal that the program runs on
+    half_col = int(round(num_cols/2))
+    
+    #creating an output window where services and their statuses are shown
+    output_win = curses.newwin(num_rows-1, half_col, 0, 0)
     output_win.addstr(0,0, f'ServiceTool Version {version}, made by omeroguz45.')
     
-    #open and read the services from services.txt
+    #opening and reading the services from services.txt
     servicesfile = open('./services.txt', 'r')
     services = [i.replace('\n', '') for i in servicesfile.readlines()]
     r = 2 #row number for where to print the service name and status
+    #printing every service and their status on the output window
     for service in services:
         output_win.addstr(r,0, f'{service} - {servicestat(service)}')
         r += 1
+    #showing the output window
     output_win.refresh()
+
+    input_win = curses.newwin(1,num_cols,num_rows-1,0)
+    command = get_input(input_win, 0,0)
+    command = command.decode('utf-8')
+    curses.flushinp()
+    curses.setsyx(0,1)
+    input_win.clrtobot()
+
+    info_win = curses.newwin(num_rows-1, half_col, 0, half_col+1)
+    info_win.addstr(0, 0, command)
+    info_win.refresh()
+    input_win.refresh()
+
     curses.napms(200000)
     curses.endwin()
 
