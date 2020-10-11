@@ -63,12 +63,14 @@ def main():
             if command[0] in commands:
                 out = servicecommand(command)
                 info_win.addstr(0,0, out)
+                info_win.refresh()
 
             else:
                 #help info
                 info_win.addstr(0,0, f"Did someone call for help?\nIf you've come to here, you probably typed something wrong or just searched help.\nYou typed:{command}\nTo start, stop or restart a service, just type the action (f.e. 'start') then the service you wanna start with a blank in between.\nIt's just that simple!")
+                info_win.refresh()
                 
-
+            info_win.refresh()
             input_win.refresh()
 
 
