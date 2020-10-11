@@ -15,6 +15,7 @@ def main():
     print(f'ServiceTool, Version{version} by omeroguz45')
     while True:
         servicestat('ssh')
+        print('\n')
         servicestat('firewall')
 
 if __name__ == '__main__':
