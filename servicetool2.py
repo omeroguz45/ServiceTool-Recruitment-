@@ -41,12 +41,14 @@ def main():
     #showing the output window
     output_win.refresh()
 
-    input_win = curses.newwin(1,num_cols,num_rows-1,0)
-    command = get_input(input_win, 0,0)
+    input_win = curses.newwin(2,num_cols,num_rows-2,0)
+    for column in range(0, num_cols):
+        input_win.addstr(0, column, '-')
+    command = get_input(input_win, 1, 0)
     command = command.decode('utf-8')
     curses.flushinp()
-    curses.setsyx(0,1)
-    input_win.clrtobot()
+    curses.setsyx(1,1)
+    input_win.clrtoeol()
 
     info_win = curses.newwin(num_rows-1, half_col-5, 0, half_col+6)
     info_win.addstr(0, 0, command)
