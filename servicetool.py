@@ -57,11 +57,11 @@ def main():
             curses.flushinp()
             curses.setsyx(1,1)
             input_win.clrtoeol()
-            command = command.split(' ')
+            command_split = command.split(' ')
             commands = ['start', 'stop', 'restart']
 
-            if command[0] in commands:
-                out = servicecommand(command)
+            if command_split[0] in commands:
+                out = servicecommand(command_split)
                 info_win.addstr(0,0, out)
                 info_win.refresh()
 
