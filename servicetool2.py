@@ -21,6 +21,9 @@ def main():
         r = 2
         output_win.addstr(r,0, f'{service} - {servicestat(service)}')
         r += 1
+    output_win.refresh()
+    curses.napms(200000)
+    curses.endwin()
 
 if __name__ == '__main__':
     main()
