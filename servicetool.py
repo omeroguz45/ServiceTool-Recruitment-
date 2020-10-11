@@ -28,6 +28,8 @@ def main():
         #creating an output window where services and their statuses are shown
         output_win = curses.newwin(num_rows-1, half_col+5, 0, 0)
         output_win.addstr(0,0, f'ServiceTool Version {version}, made by omeroguz45.')
+        info_win = curses.newwin(num_rows-1, half_col-5, 0, half_col+6)
+        info_win.addstr(0,0, 'Hi! This is ServiceTool, a tool where you can start, stop and monitor the status of the linux services.\nThis is the info window.\nOn the left is the winddow where the system services and their status are shown.\nOn the bottom is the input window, type "inputs" to start!')
 
         #opening and reading the services from services.txt
         servicesfile = open('./services.txt', 'r')
@@ -51,7 +53,7 @@ def main():
             curses.setsyx(1,1)
             input_win.clrtoeol()
 
-            info_win = curses.newwin(num_rows-1, half_col-5, 0, half_col+6)
+            info_win.clrtobot()
             info_win.addstr(0, 0, command)
             info_win.refresh()
             input_win.refresh()
